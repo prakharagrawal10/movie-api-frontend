@@ -8,6 +8,7 @@ import Signup from "./components/Signup";
 import Login from "./components/Login";
 import Header from "./components/Header";
 import Account from "./components/Account";
+import CheckEmail from "./components/CheckEmail.js";
 
 
 
@@ -28,6 +29,7 @@ const App = () => {
             element={<SeatMap />}
           />
           <Route path="/account" element={<Account />} />
+          <Route path="/check-email" element={<CheckEmail />} />
           {/* <Route
             path="/seat-selection/:showtimeId"
             element={<SeatSelection />}

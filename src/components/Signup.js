@@ -25,9 +25,9 @@ const Signup = () => {
             const data = await response.json();
             if (!response.ok) throw new Error(data.error || "Signup failed");
 
-            localStorage.setItem("token", data.token);
+            // localStorage.setItem("token", data.token);
             alert("Signup successful!");
-            navigate("/"); // Redirect to homepage after signup
+            navigate("/check-email"); // Redirect to homepage after signup
         } catch (err) {
             setError(err.message);
         }
