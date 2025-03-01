@@ -63,16 +63,6 @@ const Account = () => {
   if (error) return <p className="error">{error}</p>;
   if (!user) return <p>User data not available.</p>;
 
-
-
-  const currentDate = new Date();
-  const activeTransactions = seat.filter(
-    (booking) => !booking.isUsed && new Date(booking.showtimeDate) > currentDate
-  );
-  const bookingHistory = seat.filter(
-    (booking) => booking.isUsed || new Date(booking.showtimeDate) <= currentDate
-  );
-
   return (
     <div className="account-container">
       <h2>Account Details</h2>
@@ -87,39 +77,69 @@ const Account = () => {
         {user.createdAt ? new Date(user.createdAt).toLocaleDateString() : "N/A"}
       </p>
 
-      <h3>Active Transactions</h3>
-      {activeTransactions.length > 0 ? (
+      <h3>Bookings</h3>
+      {seat.length > 0 ? (
         <ul>
-          {activeTransactions.map((booking, index) => (
-            <li key={index}>
-              <p><strong>Movie:</strong> {booking.movieTitle || "Not Available"}</p>
-              <p><strong>Theater:</strong> {booking.theater || "Not Available"}</p>
-              <p><strong>Date:</strong> {new Date(booking.showtimeDate).toLocaleDateString()}</p>
-              <p><strong>Seats:</strong> {Array.isArray(booking.seats) ? booking.seats.flat().join(", ") : "Not Available"}</p>
-              <p><strong>Total Price:</strong> ₹{booking.price || "N/A"}</p>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>No active transactions</p>
-      )}
+          {seat.filter(booking => !booking.isUsed).map((booking, index) => {
 
-      <h3>Booking History</h3>
-      {bookingHistory.length > 0 ? (
-        <ul>
-          {bookingHistory.map((booking, index) => (
-            <li key={index}>
-              <p><strong>Movie:</strong> {booking.movieTitle || "Not Available"}</p>
-              <p><strong>Theater:</strong> {booking.theater || "Not Available"}</p>
-              <p><strong>Date:</strong> {new Date(booking.showtimeDate).toLocaleDateString()}</p>
-              <p><strong>Seats:</strong> {Array.isArray(booking.seats) ? booking.seats.flat().join(", ") : "Not Available"}</p>
-              <p><strong>Total Price:</strong> ₹{booking.price || "N/A"}</p>
-            </li>
-          ))}
+            const movieName = booking?.movieTitle || "Not Available";
+            const theaterName = booking?.theater|| "Not Available";
+            const date = booking?.createdAt
+              ? new Date(booking.createdAt).toLocaleDateString()
+              : "Not Available";
+            const seatNumbers = Array.isArray(booking.seats)
+              ? booking.seats.flat().join(", ")
+              : "Not Available";
+            const totalPrice = booking?.price || "N/A";
+
+            return (
+              <li key={index}>
+                <p><strong>Movie:</strong> {movieName}</p>
+                <p><strong>Theater:</strong> {theaterName}</p>
+                <p><strong>Date:</strong> {date}</p>
+                <p><strong>Seats:</strong> {seatNumbers}</p>
+                <p><strong>Total Price:</strong> ₹{totalPrice}</p>
+              </li>
+            );
+          })}
         </ul>
       ) : (
-        <p>No past bookings</p>
-      )}
+        <p>No bookings found</p>
+      )
+      
+      
+      
+      }
+
+<h3>Past Bookings</h3>
+{seat.filter(booking => booking.isUsed).length > 0 ? (
+  <ul>
+    {seat.filter(booking => booking.isUsed).map((booking, index) => {
+      const movieName = booking?.movieTitle || "Not Available";
+      const theaterName = booking?.theater || "Not Available";
+      const date = booking?.createdAt
+        ? new Date(booking.createdAt).toLocaleDateString()
+        : "Not Available";
+      const seatNumbers = Array.isArray(booking.seats)
+        ? booking.seats.flat().join(", ")
+        : "Not Available";
+      const totalPrice = booking?.price || "N/A";
+
+      return (
+        <li key={index}>
+          <p><strong>Movie:</strong> {movieName}</p>
+          <p><strong>Theater:</strong> {theaterName}</p>
+          <p><strong>Date:</strong> {date}</p>
+          <p><strong>Seats:</strong> {seatNumbers}</p>
+          <p><strong>Total Price:</strong> ₹{totalPrice}</p>
+        </li>
+      );
+    })}
+  </ul>
+) : (
+  <p>No past bookings found</p>
+)}
+
     </div>
   );
 };
