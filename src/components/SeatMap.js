@@ -160,7 +160,7 @@ const SeatMap = () => {
       if (!response.ok) throw new Error(data.error || "Booking failed");
 
       alert("Booking successful!");
-      // await saveSeat(); // Save reservation details
+      await saveSeat(); // Save reservation details
       await emailSeats(); // Send email confirmation
 
       setSeats(data.seats); // Update seat map with latest data
