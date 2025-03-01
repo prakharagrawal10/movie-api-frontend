@@ -1,0 +1,78 @@
+.movie-list-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #f8f9fa;
+}
+
+.movie-list-container h2 {
+    margin-bottom: 20px;
+    font-size: 2rem;
+    color: #333;
+}
+
+.movie-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.movie-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease-in-out;
+    text-align: center;
+    padding: 15px;
+}
+
+.movie-card:hover {
+    transform: scale(1.05);
+}
+
+.movie-poster {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+    border-bottom: 2px solid #ddd;
+}
+
+.movie-details {
+    padding: 10px;
+}
+
+.movie-title {
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin: 10px 0;
+    color: #222;
+}
+
+.movie-info {
+    font-size: 0.9rem;
+    color: #555;
+    margin: 5px 0;
+    text-align: left;
+}
+
+.view-theatres-btn {
+    display: inline-block;
+    background-color: #007bff;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin-top: 10px;
+    border: none;
+    transition: background 0.3s;
+}
+
+.view-theatres-btn:hover {
+    background-color: #0056b3;
+}

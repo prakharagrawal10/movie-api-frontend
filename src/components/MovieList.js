@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import './MovieList.css';
 
 const API_URL = process.env.REACT_APP_API_URL;
 
@@ -10,20 +11,11 @@ const MovieList = () => {
     const [error, setError] = useState(null);
     const navigate = useNavigate();
 
-    const fetchMovies = async () => {
-        try {
-            const response = await axios.get(`${API_URL}/api/movie/get-all`);
-            return response.data;
-        } catch (error) {
-            throw new Error('Error fetching movies: ' + error.message);
-        }
-    };
-
     useEffect(() => {
-        const getMovies = async () => {
+        const fetchMovies = async () => {
             try {
-                const data = await fetchMovies();
-                setMovies(data);
+                const response = await axios.get(`${API_URL}/api/movie/get-all`);
+                setMovies(response.data);
             } catch (err) {
                 setError(err.message);
             } finally {
@@ -31,28 +23,37 @@ const MovieList = () => {
             }
         };
 
-        getMovies();
+        fetchMovies();
     }, []);
 
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error}</div>;
 
     return (
-        <div>
+        <div className="movie-list-container">
             <h2>Movie List</h2>
-            <ul>
+            <div className="movie-grid">
                 {movies.map(movie => (
-                    <li key={movie._id}>
-                        <h3>{movie.title}</h3>
-                        <p>Genre: {movie.genre.join(', ')}</p>
-                        <p>Duration: {movie.duration} minutes</p>
-                        <p>Release Date: {new Date(movie.releaseDate).toLocaleDateString()}</p>
-                        <button onClick={() => navigate(`/showtimes/${encodeURIComponent(movie.title)}`)}>
-                            View Theatres
-                        </button>
-                    </li>
+                    <div key={movie._id} className="movie-card">
+                        <img src={movie.posterUrl} alt={movie.title} className="movie-poster" />
+                        <div className="movie-details">
+                            <h3 className="movie-title">{movie.title}</h3>
+                            <p className="movie-info"><strong>Genre:</strong> {movie.genre.join(', ')}</p>
+                            <p className="movie-info"><strong>Duration:</strong> {movie.duration} min</p>
+                            <p className="movie-info"><strong>Release:</strong> {new Date(movie.releaseDate).toLocaleDateString()}</p>
+                            
+                            {/* New Fields */}
+                            <p className="movie-info"><strong>IMDb Rating:</strong> ⭐ {movie.imdbRating}/10</p>
+                            <p className="movie-info"><strong>Cast:</strong> {movie.cast.join(', ')}</p>
+                            <p className="movie-info"><strong>Director:</strong> {movie.director}</p>
+
+                            <button className="view-theatres-btn" onClick={() => navigate(`/showtimes/${encodeURIComponent(movie.title)}`)}>
+                                View Theatres
+                            </button>
+                        </div>
+                    </div>
                 ))}
-            </ul>
+            </div>
         </div>
     );
 };
