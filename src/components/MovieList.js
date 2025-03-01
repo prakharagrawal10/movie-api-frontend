@@ -41,11 +41,17 @@ const MovieList = () => {
                             <p className="movie-info"><strong>Genre:</strong> {movie.genre.join(', ')}</p>
                             <p className="movie-info"><strong>Duration:</strong> {movie.duration} min</p>
                             <p className="movie-info"><strong>Release:</strong> {new Date(movie.releaseDate).toLocaleDateString()}</p>
-                            
-                            {/* New Fields */}
                             <p className="movie-info"><strong>IMDb Rating:</strong> ⭐ {movie.imdbRating}/10</p>
                             <p className="movie-info"><strong>Cast:</strong> {movie.cast.join(', ')}</p>
                             <p className="movie-info"><strong>Director:</strong> {movie.director}</p>
+                            {movie.description && <p className="movie-info"><strong>Description:</strong> {movie.description}</p>}
+
+                            {/* ✅ Added Trailer Link */}
+                            {movie.trailerUrl && (
+                                <a href={movie.trailerUrl} target="_blank" rel="noopener noreferrer" className="trailer-link">
+                                    🎬 Watch Trailer
+                                </a>
+                            )}
 
                             <button className="view-theatres-btn" onClick={() => navigate(`/showtimes/${encodeURIComponent(movie.title)}`)}>
                                 View Theatres
